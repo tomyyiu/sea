@@ -88,14 +88,14 @@ var
 begin
   clrscr;
   writeln('Delete student record');
-  write('Enter student ID or name to be delete');
+  writeln('Enter student ID to be delete');
   readln(target);
   found:=false;
   num:=0;
   repeat
     num:=num+1;
     with Student[num] do
-      if Name=target
+      if ID=target
       then begin
         index:=num;
         found:=true;
@@ -105,14 +105,22 @@ begin
   then begin
     write('Student record found, delete it (Y/N)? ');
     readln(ans);
+    if ans = 'Y'
     then begin
-      with Student[index] do
+      with Student[index] do begin
       Name:='';
+      s_class:='';
+      c_no:='';
+      ID:='';
+      phone_no:='';
+      end;
+
       count:=count-1;
       writeln('student record eliminated') ;
-    end;
-  end;
+    end else writeln('Press Enter to return Meun') ;
+  end
   else writeln('Record not found');
+  readln;
 end;
 
 procedure Searchrecord(var count: integer);
@@ -125,18 +133,18 @@ procedure EditRecord(var count: integer);
 var
   target:string[32];
   found:boolean;
-  n,index:=integer;
+  n,index:integer;
 begin
   clrscr;
   writeln('Edit student record');
-  write('Enter student ID or name to be edit: ');
+  write('Enter student ID to be edit: ');
   readln(target);
   found:=false;
   n:=0;
   repeat
     n:= n+1;
     with Student[n] do
-    if Name=target
+    if ID=target
     then begin
       index:=n;
       found:=true;
@@ -144,7 +152,7 @@ begin
     until found or(n=count);
     if found
     then begin
-      writeln('Student record found'):
+      writeln('Student record found');
       with Student[index] do
       begin
       write('Enter student ID: ');
@@ -159,24 +167,25 @@ begin
       readln(phone_no);
       writeln('Record updated');
       end;
-      end;
-    else writeln('record updated!');
+      end
+    else writeln('Student Not found!');
+    readln;
 end;
 
 procedure SaveRecord(count: integer);
 var
-  n:=integer;
+  n:integer;
 begin
   rewrite(contactfile);
   for n:=1 to count do
       with Student[n] do
       if name<>''
       then begin
-      writeln(contactfile, name);
-      writeln(contactfile, s_class);
-      writeln(contactfile, c_no);
-      writeln(contactfile, ID);
-      writeln(Contactfile, phone_no);
+        writeln(contactfile, name);
+        writeln(contactfile, s_class);
+        writeln(contactfile, c_no);
+        writeln(contactfile, ID);
+        writeln(Contactfile, phone_no);
       end;
   close(Contactfile);
 end;

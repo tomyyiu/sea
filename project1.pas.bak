@@ -76,30 +76,117 @@ begin
     write('Input more record (Y/N) ? ');
     readln(ans);
   until ans in ['N', 'n'];
-  close(contactfile);
+
 end;
 
 procedure DeleteRecord(var count: integer);
-
+var
+  ans:char;
+  target: string[32];
+  found:boolean;
+  num,index:integer;
 begin
+  clrscr;
+  writeln('Delete student record');
+  writeln('Enter student ID to be delete');
+  readln(target);
+  found:=false;
+  num:=0;
+  repeat
+    num:=num+1;
+    with Student[num] do
+      if ID=target
+      then begin
+        index:=num;
+        found:=true;
+      end;
+  until found or (num=count);
+  if found
+  then begin
+    write('Student record found, delete it (Y/N)? ');
+    readln(ans);
+    if ans = 'Y'
+    then begin
+      with Student[index] do begin
+      Name:='';
+      s_class:='';
+      c_no:='';
+      ID:='';
+      phone_no:='';
+      end;
 
+      count:=count-1;
+      writeln('student record eliminated') ;
+    end
+  end
+  else writeln('Record not found');
+  readln;
 end;
 
-procedure Searchrecord(count: integer);
+procedure Searchrecord(var count: integer);
 
 begin
-
+  clrscr;
 end;
 
 procedure EditRecord(var count: integer);
-
+var
+  target:string[32];
+  found:boolean;
+  n,index:integer;
 begin
-
+  clrscr;
+  writeln('Edit student record');
+  write('Enter student ID to be edit: ');
+  readln(target);
+  found:=false;
+  n:=0;
+  repeat
+    n:= n+1;
+    with Student[n] do
+    if ID=target
+    then begin
+      index:=n;
+      found:=true;
+      end;
+    until found or(n=count);
+    if found
+    then begin
+      writeln('Student record found');
+      with Student[index] do
+      begin
+      write('Enter student ID: ');
+      readln(ID);
+      write('Enter student name: ');
+      readln(name);
+      write('Enter student class: ');
+      readln(s_class);
+      write('Enter class no.: ');
+      readln(c_no);
+      write('Enter phone no.: ');
+      readln(phone_no);
+      writeln('Record updated');
+      end;
+      end
+    else writeln('Student Not found!');
+    readln;
 end;
 
 procedure SaveRecord(count: integer);
-
+var
+  n:integer;
 begin
+  rewrite(contactfile);
+  for n:=1 to count do
+      with Student[n] do
+      if name<>''
+      then begin
+        writeln(contactfile, name);
+        writeln(contactfile, s_class);
+        writeln(contactfile, c_no);
+        writeln(contactfile, ID);
+        writeln(Contactfile, phone_no);
+      end;
   close(Contactfile);
 end;
 
