@@ -21,24 +21,40 @@ begin
 end;
 
 procedure InputRecord(var count: integer);
+type
+  StudentType= record
+                  Name :string[32];
+                  ID   :string[16];
+                  S_class:string[2];
+                  c_no :1..2;
+                  phone_no:string[8];
+  end;
+
 var
   ans:char;
+  student:StudentType
 begin
   writeln('--------------welcome--------------');
   writeln('insert records');
   append(contactfile);
   repeat
     count:=count+1;
-    with student[count] do
+    with Student[count] do
     begin
+      write('Enter student ID: ');
+      readln(ID);
       write('Enter student name: ');
-      readln(Name);
-      write('Enter sex (M/F): ');
-      readln(sex);
+      readln(name);
+      write('Enter student class: ');
+      readln(s_class);
+      write('Enter class no.: ');
+      readln(c_no);
       write('Enter phone no.: ');
       readln(phone_no);
-      writeln(contactfile, Name);
-      writeln(contactfile, sex);
+      writeln(contactfile, name);
+      writeln(contactfile, s_class);
+      writeln(contactfile, c_no);
+      writeln(contactfile, ID);
       writeln(Contactfile, phone_no);
     end;
     write('Input more record (Y/N) ? ');
