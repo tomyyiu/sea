@@ -7,10 +7,31 @@ var
   option:1..5;
 
 
-procedure InputRecord;
-
+procedure InputRecord(var count: integer);
+var
+  ans:char;
 begin
-
+  writeln('--------------welcome--------------');
+  writeln('insert records');
+  append(contactfile);
+  repeat
+    count:=count+1;
+    with student[count] do
+    begin
+      write('Enter student name: ');
+      readln(Name);
+      write('Enter sex (M/F): ');
+      readln(sex);
+      write('Enter phone no.: ');
+      readln(phone_no);
+      writeln(contactfile, Name);
+      writeln(contactfile, sex);
+      writeln(Contactfile, phone_no);
+    end;
+    write('Input more record (Y/N) ? ');
+    readln(ans);
+  until ans in ['N', 'n'];
+  close(contactfile);
 end;
 
 procedure DeleteRecord;

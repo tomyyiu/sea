@@ -4,12 +4,64 @@ uses Crt;
 var
   uname,pw:string;
   i:integer;
+  option:1..5;
+
+
+procedure InputRecord;
+
+begin
+
+end;
+
+procedure DeleteRecord;
+
+begin
+
+end;
+
+procedure Searchrecord;
+
+begin
+
+end;
+
+procedure EditRecord;
+
+begin
+
+end;
+
+procedure SaveRecord;
+
+begin
+
+end;
 
 procedure meun;
-begin
-  writeln('--------------welcome--------------');
-  readln;
 
+begin
+  repeat
+    clrscr;
+    writeln('--------------welcome--------------');
+    writeln;
+    writeln('1. Input record');
+    writeln('2. Delete record');
+    writeln('3. Search student');
+    writeln('4. Edit record') ;
+    writeln('5. Quit');
+    writeln;
+    repeat
+      writeln('Enter your option(1-5): ');
+      readln(option);
+    until option in [1..5];
+    case option of
+      1: InputRecord;
+      2: DeleteRecord;
+      3: Searchrecord;
+      4: EditRecord;
+    end
+  until option = 5;
+  SaveRecord
 end;
 
 begin
