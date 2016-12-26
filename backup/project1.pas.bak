@@ -25,8 +25,22 @@ begin
   {$I+}
   If (IOResult <> 0) then       //check if there is no text file
     rewrite(contactfile);
+  reset(contactfile);
 
-
+    count:=0;
+    while not eof(contactfile)do
+    begin
+      count:=count+1;
+      with Student[count] do
+      begin
+      readln(contactfile, name);
+      readln(contactfile, s_class);
+      readln(contactfile, c_no);
+      readln(contactfile, ID);
+      readln(Contactfile, phone_no);
+      end;
+    end;
+    close(contactfile)
 end;
 
 procedure InputRecord(var count: integer);
@@ -35,8 +49,9 @@ var
   ans:char;
 
 begin
+  clrscr;
   writeln('--------------welcome--------------');
-  writeln('insert records');
+  writeln('input records');
   append(contactfile);
   repeat
     count:=count+1;
@@ -61,7 +76,7 @@ begin
     write('Input more record (Y/N) ? ');
     readln(ans);
   until ans in ['N', 'n'];
-  close(contactfile);
+
 end;
 
 procedure DeleteRecord(var count: integer);
