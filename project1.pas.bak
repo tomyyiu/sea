@@ -7,35 +7,25 @@ var
   option:1..5;
 
 
-procedure InputRecord;
+  procedure InputRecord;
+  begin
+  end;
 
-begin
+  procedure DeleteRecord;
+  begin
+  end;
 
-end;
+  procedure Searchrecord;
+  begin
+  end;
 
-procedure DeleteRecord;
+  procedure EditRecord;
+  begin
+  end;
 
-begin
-
-end;
-
-procedure Searchrecord;
-
-begin
-
-end;
-
-procedure EditRecord;
-
-begin
-
-end;
-
-procedure SaveRecord;
-
-begin
-
-end;
+  procedure SaveRecord;
+  begin
+  end;
 
 procedure meun;
 
