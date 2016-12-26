@@ -105,7 +105,7 @@ begin
   then begin
     write('Student record found, delete it (Y/N)? ');
     readln(ans);
-    if ans = 'Y'
+    if (ans = 'Y') or (ans = 'y')
     then begin
       with Student[index] do begin
       Name:='';
