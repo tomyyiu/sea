@@ -1,14 +1,23 @@
 program project1;
 uses Crt;
 
+type
+  StudentType= record
+                  Name :string[32];
+                  ID   :string[16];
+                  S_class:string[2];
+                  c_no :string[2];
+                  phone_no:string[8];
+  end;
 
 var
   uname,pw:string;
-  i:integer;
+  i,Totalrecord:integer;
   option:1..5;
   contactfile:text;
+  student:array[1..1024] of StudentType;
 
-procedure ReadRecord;
+procedure ReadRecord(var count: integer);
 begin
   assign(contactfile, 'contactfile.txt');
   {$I-}
@@ -21,18 +30,10 @@ begin
 end;
 
 procedure InputRecord(var count: integer);
-type
-  StudentType= record
-                  Name :string[32];
-                  ID   :string[16];
-                  S_class:string[2];
-                  c_no :1..2;
-                  phone_no:string[8];
-  end;
 
 var
   ans:char;
-  student:StudentType
+
 begin
   writeln('--------------welcome--------------');
   writeln('insert records');
@@ -63,25 +64,25 @@ begin
   close(contactfile);
 end;
 
-procedure DeleteRecord;
+procedure DeleteRecord(var count: integer);
 
 begin
 
 end;
 
-procedure Searchrecord;
+procedure Searchrecord(count: integer);
 
 begin
 
 end;
 
-procedure EditRecord;
+procedure EditRecord(var count: integer);
 
 begin
 
 end;
 
-procedure SaveRecord;
+procedure SaveRecord(count: integer);
 
 begin
   close(Contactfile);
@@ -90,7 +91,7 @@ end;
 procedure meun;
 
 begin
-  ReadRecord;
+  ReadRecord(Totalrecord);
   repeat
     clrscr;
     writeln('--------------welcome--------------');
@@ -106,13 +107,13 @@ begin
       readln(option);
     until option in [1..5];
     case option of
-      1: InputRecord;
-      2: DeleteRecord;
-      3: Searchrecord;
-      4: EditRecord;
+      1: InputRecord(TotalRecord);
+      2: DeleteRecord(TotalRecord);
+      3: Searchrecord(TotalRecord);
+      4: EditRecord(TotalRecord);
     end
   until option = 5;
-  SaveRecord
+  SaveRecord(Totalrecord);
 end;
 
 begin

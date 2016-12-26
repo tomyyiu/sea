@@ -2,5 +2,4 @@
 <CONFIG>
   <Compiler Value="C:\lazarus\fpc\3.0.0\bin\x86_64-win64\fpc.exe" Date="1213098656"/>
   <Params Value=" -MObjFPC -Scghi -O1 -g -gl -l -vewnhibq -FiD:\Documents\GitHub\sea\lib\x86_64-win64 -FuD:\Documents\GitHub\sea\ -FUD:\Documents\GitHub\sea\lib\x86_64-win64\ project1.pas"/>
-  <Complete Value="False"/>
 </CONFIG>
