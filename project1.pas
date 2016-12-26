@@ -1,11 +1,24 @@
 program project1;
 uses Crt;
 
+
 var
   uname,pw:string;
   i:integer;
   option:1..5;
+  contactfile:text;
 
+procedure ReadRecord;
+begin
+  assign(contactfile, 'contactfile.txt');
+  {$I-}
+  Reset(contactfile);
+  {$I+}
+  If (IOResult <> 0) then       //check if there is no text file
+    rewrite(contactfile);
+
+
+end;
 
 procedure InputRecord(var count: integer);
 var
@@ -55,12 +68,13 @@ end;
 procedure SaveRecord;
 
 begin
-
+  close(Contactfile);
 end;
 
 procedure meun;
 
 begin
+  ReadRecord;
   repeat
     clrscr;
     writeln('--------------welcome--------------');

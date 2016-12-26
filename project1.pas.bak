@@ -5,31 +5,75 @@ var
   uname,pw:string;
   i:integer;
   option:1..5;
+  contactfile:text;
+
+procedure ReadRecord;
+begin
+  assign(contactfile, 'contactfile.txt');
+  {$I-}
+  Reset(contactfile);
+  {$I+}
+  If (IOResult <> 0) then       //check if there is no text file
+    rewrite(contactfile);
 
 
-  procedure InputRecord;
-  begin
-  end;
+end;
 
-  procedure DeleteRecord;
-  begin
-  end;
+procedure InputRecord(var count: integer);
+var
+  ans:char;
+begin
+  writeln('--------------welcome--------------');
+  writeln('insert records');
+  append(contactfile);
+  repeat
+    count:=count+1;
+    with student[count] do
+    begin
+      write('Enter student name: ');
+      readln(Name);
+      write('Enter sex (M/F): ');
+      readln(sex);
+      write('Enter phone no.: ');
+      readln(phone_no);
+      writeln(contactfile, Name);
+      writeln(contactfile, sex);
+      writeln(Contactfile, phone_no);
+    end;
+    write('Input more record (Y/N) ? ');
+    readln(ans);
+  until ans in ['N', 'n'];
+  close(contactfile);
+end;
 
-  procedure Searchrecord;
-  begin
-  end;
+procedure DeleteRecord;
 
-  procedure EditRecord;
-  begin
-  end;
+begin
 
-  procedure SaveRecord;
-  begin
-  end;
+end;
+
+procedure Searchrecord;
+
+begin
+
+end;
+
+procedure EditRecord;
+
+begin
+
+end;
+
+procedure SaveRecord;
+
+begin
+  close(Contactfile);
+end;
 
 procedure meun;
 
 begin
+  ReadRecord;
   repeat
     clrscr;
     writeln('--------------welcome--------------');
