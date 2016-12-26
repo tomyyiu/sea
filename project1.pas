@@ -25,8 +25,20 @@ begin
   {$I+}
   If (IOResult <> 0) then       //check if there is no text file
     rewrite(contactfile);
-
-
+    count:=0;
+    while not eof(contactfile)do
+    begin
+      count:=count+1;
+      with Student[count] do
+      begin
+      readln(contactfile, name);
+      readln(contactfile, s_class);
+      readln(contactfile, c_no);
+      readln(contactfile, ID);
+      readln(Contactfile, phone_no);
+      end;
+    end;
+    close(contactfile)
 end;
 
 procedure InputRecord(var count: integer);
@@ -35,6 +47,7 @@ var
   ans:char;
 
 begin
+  clrscr;
   writeln('--------------welcome--------------');
   writeln('insert records');
   append(contactfile);
