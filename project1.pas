@@ -1,19 +1,19 @@
 program project1;
-uses Crt;
+uses Crt,sysutils;
 
 type
   StudentType= record
                   Name :string[32];
                   ID   :string[16];
-                  S_class:string[2];
-                  c_no :string[2];
+                  S_class:string[4];
+                  c_no :string[4];
                   phone_no:string[8];
   end;
 
 var
   uname,pw:string;
   i,Totalrecord:integer;
-  option:1..5;
+  option:string;
   contactfile:text;
   student:array[1..1024] of StudentType;
 
@@ -47,6 +47,7 @@ procedure InputRecord(var count: integer);
 
 var
   ans:char;
+  errorNo:integer;
 
 begin
   clrscr;
@@ -57,24 +58,84 @@ begin
     count:=count+1;
     with Student[count] do
     begin
+
+      repeat
+      errorNo:=0;
       write('Enter student ID: ');
       readln(ID);
+      if length(ID) = 7 then begin
+        if id[1] <> 's' then errorNo:=1;
+            Try
+              StrToInt(Copy(id,2,6))
+            except
+              On E : EConvertError do
+                errorNo:=1;
+            end;
+        end else errorNo:=1;
+      until errorNo = 0;
+
       write('Enter student name: ');
       readln(name);
+
+      repeat
+      errorNo:=0;
       write('Enter student class: ');
       readln(s_class);
+      if length(s_class) = 2 then begin
+            if ( ord(s_class[2]) >=97 ) and ( ord(s_class[2]) <= 122 ) then
+              s_class := s_class[1]+upCase(s_class[2]);
+            if ( ord(s_class[2]) < 65 ) or ( ord(s_class[2]) > 90 ) then
+              errorNo:=2;
+
+            Try
+              StrToInt(Copy(s_class,1,1))
+            except
+              On E : EConvertError do
+                errorNo:=2;
+            end;
+      end else errorNo:=2;
+      until errorNo = 0;
+
+      repeat
+      errorNo:=0;
       write('Enter class no.: ');
       readln(c_no);
+      if ( length(c_no) = 2 ) or ( length(c_no) = 1 ) then begin
+            Try
+              StrToInt(c_no)
+            except
+              On E : EConvertError do
+                errorNo:=3;
+            end
+      end else errorNo:=3;
+      until errorNo = 0;
+
+      repeat
+      errorNo:=0;
       write('Enter phone no.: ');
       readln(phone_no);
+      if length(phone_no) = 8 then begin
+            Try
+              StrToInt(phone_no)
+            except
+              On E : EConvertError do
+                errorNo:=4;
+            end
+      end else errorNo:=4;
+      until errorNo = 0;
+
       writeln(contactfile, name);
       writeln(contactfile, s_class);
       writeln(contactfile, c_no);
       writeln(contactfile, ID);
       writeln(Contactfile, phone_no);
     end;
+
+    repeat
     write('Input more record (Y/N) ? ');
     readln(ans);
+    until ans in ['N', 'n', 'Y', 'y'];
+
   until ans in ['N', 'n'];
 
 end;
@@ -103,8 +164,10 @@ begin
   until found or (num=count);
   if found
   then begin
+    repeat
     write('Student record found, delete it (Y/N)? ');
     readln(ans);
+    until ans in ['N', 'n', 'Y', 'y'];
     if (ans = 'Y') or (ans = 'y')
     then begin
       with Student[index] do begin
@@ -124,9 +187,41 @@ begin
 end;
 
 procedure Searchrecord(var count: integer);
-
+var
+  target:string;
+  found:boolean;
+  index,num:integer;
 begin
   clrscr;
+  writeln('-----Search student record-----');
+  writeln('Enter student ID to be search: ');
+  readln(target);
+  found:=false;
+  num:=0;
+  repeat
+    num:=num+1;
+    with Student[num] do
+      if ID=target
+      then begin
+        index:=num;
+        found:=true;
+      end;
+  until found or (num=count);
+  if found
+  then begin
+    clrscr;
+    writeln('-----Search student record-----');
+    with student[index] do begin
+      writeln('student ID: ',id);
+      writeln('student name: ',name);
+      writeln('student class: ',s_class);
+      writeln('class no.: ',c_no);
+      writeln('phone no.: ',phone_no);
+    end;
+  end
+  else writeln('Record not found');
+  writeln('Press Enter to return Meun');
+  readln;
 end;
 
 procedure EditRecord(var count: integer);
@@ -134,6 +229,7 @@ var
   target:string[32];
   found:boolean;
   n,index:integer;
+  errorNo:integer;
 begin
   clrscr;
   writeln('Edit student record');
@@ -149,26 +245,82 @@ begin
       index:=n;
       found:=true;
       end;
-    until found or(n=count);
+  until found or(n=count);
     if found
     then begin
-      writeln('Student record found');
-      with Student[index] do
-      begin
-      write('Enter student ID: ');
-      readln(ID);
+    writeln('Student record found');
+    with Student[index] do begin
+      repeat
+        errorNo:=0;
+        write('Enter student ID: ');
+        readln(ID);
+        if length(ID) = 7 then begin
+          if id[1] <> 's' then errorNo:=1;
+            Try
+              StrToInt(Copy(id,2,6))
+            except
+              On E : EConvertError do
+                errorNo:=1;
+            end;
+        end else errorNo:=1;
+      until errorNo = 0;
+
       write('Enter student name: ');
       readln(name);
-      write('Enter student class: ');
-      readln(s_class);
-      write('Enter class no.: ');
-      readln(c_no);
-      write('Enter phone no.: ');
-      readln(phone_no);
+
+      repeat
+        errorNo:=0;
+        write('Enter student class: ');
+        readln(s_class);
+        if length(s_class) = 2 then begin
+            if ( ord(s_class[2]) >=97 ) and ( ord(s_class[2]) <= 122 ) then
+              s_class := s_class[1]+upCase(s_class[2]);
+            if ( ord(s_class[2]) < 65 ) or ( ord(s_class[2]) > 90 ) then
+              errorNo:=2;
+
+            Try
+              StrToInt(Copy(s_class,1,1))
+            except
+              On E : EConvertError do
+                errorNo:=2;
+            end;
+        end else errorNo:=2;
+      until errorNo = 0;
+
+      repeat
+        errorNo:=0;
+        write('Enter class no.: ');
+        readln(c_no);
+        if ( length(c_no) = 2 ) or ( length(c_no) = 1 ) then begin
+            Try
+              StrToInt(c_no)
+            except
+              On E : EConvertError do
+                errorNo:=3;
+            end
+        end else errorNo:=3;
+      until errorNo = 0;
+
+      repeat
+        errorNo:=0;
+        write('Enter phone no.: ');
+        readln(phone_no);
+        if length(phone_no) = 8 then begin
+            Try
+              StrToInt(phone_no)
+            except
+              On E : EConvertError do
+                errorNo:=4;
+            end
+        end else errorNo:=4;
+      until errorNo = 0;
+
+
       writeln('Record updated');
       end;
       end
     else writeln('Student Not found!');
+    writeln('Press Enter to return Meun');
     readln;
 end;
 
@@ -190,10 +342,36 @@ begin
   close(Contactfile);
 end;
 
-procedure meun;
+procedure meun(var accountid : string);
 
 begin
   ReadRecord(Totalrecord);
+
+  if accountid = 'admin' then begin
+  repeat
+    clrscr;
+    writeln('--------------welcome--------------');
+    writeln;
+    writeln('1. Input record');
+    writeln('2. Delete record');
+    writeln('3. Search student');
+    writeln('4. Edit record') ;
+    writeln('5. Quit');
+    writeln;
+    repeat
+      writeln('Enter your option(1-5): ');
+      readln(option);
+    until option[1] in ['1','2','3','4','5'];
+    case option of
+      '1': InputRecord(TotalRecord);
+      '2': DeleteRecord(TotalRecord);
+      '3': Searchrecord(TotalRecord);
+      '4': EditRecord(TotalRecord);
+    end
+  until option = '5';
+  end;
+
+{  if accountid = 'student' then begin
   repeat
     clrscr;
     writeln('--------------welcome--------------');
@@ -215,6 +393,9 @@ begin
       4: EditRecord(TotalRecord);
     end
   until option = 5;
+  end;
+  end;
+           }
   SaveRecord(Totalrecord);
 end;
 
@@ -237,13 +418,15 @@ begin
     end;
     i:=i-1;
 
+
+
   end;
   if i=0 then begin
     writeln('No chance left');
     readln;
     halt;
   end;
-  meun;
+  meun(uname);
 end.
 
 
