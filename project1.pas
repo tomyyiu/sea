@@ -6,10 +6,28 @@ var
   i:integer;
 
 procedure meun;
+
 begin
   writeln('--------------welcome--------------');
-  readln;
-
+  writeln;
+  writeln('1. Input record');
+  writeln('2. Delete record');
+  writeln('3. Search student');
+  writeln('4. Edit record') ;
+  writeln('5. Quit');
+  writeln;
+  repeat
+    writeln('Enter your option(1-5): ');
+    readin(option)
+  until option in [1..5];
+  case option of
+  1: InputRecord;
+  2: DeleteRecord;
+  3: Searchrecord;
+  4: EditRecord;
+  end
+  until choice+5
+  SaveRecord
 end;
 
 begin
