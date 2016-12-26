@@ -25,6 +25,8 @@ begin
   {$I+}
   If (IOResult <> 0) then       //check if there is no text file
     rewrite(contactfile);
+  reset(contactfile);
+
     count:=0;
     while not eof(contactfile)do
     begin
@@ -49,7 +51,7 @@ var
 begin
   clrscr;
   writeln('--------------welcome--------------');
-  writeln('insert records');
+  writeln('input records');
   append(contactfile);
   repeat
     count:=count+1;
@@ -74,7 +76,7 @@ begin
     write('Input more record (Y/N) ? ');
     readln(ans);
   until ans in ['N', 'n'];
-  close(contactfile);
+
 end;
 
 procedure DeleteRecord(var count: integer);
